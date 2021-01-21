@@ -9,8 +9,6 @@
    <div class="top">
    <span class="title1">Monster_Buster(モンバス)の最新情報</span>
 </div>
-
-<a href="login.php">管理者ログイン</a>
 <hr/>
 
 <?php
