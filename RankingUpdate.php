@@ -4,27 +4,19 @@
     </head>
     <body>
         <?php
-          $data[] = array('year' => 1999, 'volume' => 12, 'author_id' => 1);
-          $data[] = array('year' => 1990, 'volume' => 9, 'author_id' => 2);
-          $data[] = array('year' => 2004, 'volume' => 15, 'author_id' => 2);
-          $data[] = array('year' => 2008, 'volume' => 18, 'author_id' => 1);
-          $data[] = array('year' => 1982, 'volume' => 8, 'author_id' => 3);
+        try{
+          $dbh = new PDO('sqlite:ranking.db','','');   //PDOクラスのオブジェクトの作成
+           $sth = $dbh->prepare("select * from ranking order by score desc");   //prepareメソッドでSQL文の準備
+           $sth->execute();   //準備したSQL文の実行
 
-          //列方向の配列を得る
-          foreach ($data as $key => $row) {
-            $year[$key] = $row['year'];
-            $volume[$key] = $row['volume'];
-            $edition[$key] = $row['author_id'];
-          }
-
-          //データをyearの降順、volumeの昇順にソートする。
-          //$dataを最後のパラメータとして渡し、同じキーでソートする。
-          array_multisort($year, SORT_DESC, $volume, SORT_ASC, $data);
-        ?>
-        <?php
-          foreach ($data as $key => $row) {
-            echo $row['year'];
-            echo "<br />";
+           //取得したデータを出力
+           foreach ($sth as $value) {
+             //scoreを降順にソートしたものをブラウザに表示(デバッグ)
+             echo "$value[score]<br>";
+           }
+          } Catch (PDOException $e) {
+           print "エラー!: " . $e->getMessage() . "<br/>";
+           die();
           }
         ?>
     </body>
